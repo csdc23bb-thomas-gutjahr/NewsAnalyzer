@@ -73,7 +73,7 @@ public class Controller {
 
 		Scanner scan = new Scanner(System.in);
 		System.out.println("Do you want to download all the articles ? yes or no");
-		scan.close();
+
 
 		//TODO implement Error handling
 
