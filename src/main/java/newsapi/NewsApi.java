@@ -10,7 +10,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class NewsApi {
+public class NewsApi extends Throwable {
 
     public static final String DELIMITER = "&";
 
@@ -104,7 +104,7 @@ public class NewsApi {
         this.endpoint = endpoint;
     }
 
-    protected String requestData() {
+    protected String requestData() throws NewsException {
         String url = buildURL();
         System.out.println("URL: "+url);
         URL obj = null;
@@ -113,6 +113,7 @@ public class NewsApi {
         } catch (MalformedURLException e) {
             // TOOO improve ErrorHandling
             e.printStackTrace();
+           throw new NewsException("Bitte prüfen Sie ihre Internetverbindung");
         }
         HttpURLConnection con;
         StringBuilder response = new StringBuilder();
@@ -131,11 +132,13 @@ public class NewsApi {
         return response.toString();
     }
 
-    protected String buildURL() {
+    protected String buildURL() throws NewsException {
         // TODO ErrorHandling
         String urlbase = String.format(NEWS_API_URL,getEndpoint().getValue(),getQ(),getApiKey());
         StringBuilder sb = new StringBuilder(urlbase);
-
+        if(getApiKey() == null || getApiKey().equals("")){
+            throw new NewsException("Bitte prüfen Sie ihren API Key");
+        }
         if(getFrom() != null){
             sb.append(DELIMITER).append("from=").append(getFrom());
         }
@@ -172,7 +175,7 @@ public class NewsApi {
         return sb.toString();
     }
 
-    public NewsReponse getNews() {
+    public NewsReponse getNews() throws NewsException {
         NewsReponse newsReponse = null;
         String jsonResponse = requestData();
         if(jsonResponse != null && !jsonResponse.isEmpty()){

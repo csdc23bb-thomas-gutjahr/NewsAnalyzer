@@ -6,23 +6,55 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import newsanalyzer.ctrl.Controller;
+import newsapi.NewsApi;
+import newsapi.NewsApiBuilder;
+import newsapi.enums.Category;
+import newsapi.enums.Country;
+import newsapi.enums.*;
 
 public class UserInterface 
 {
 
+	private static final String APIKEY = "236435ac0c264761a6e8a49696eced1a";
 	private Controller ctrl = new Controller();
 
 	public void getDataFromCtrl1(){
-		System.out.println("ABC");
-
-		ctrl.process();
+		System.out.println("Austria");
+		NewsApi newsApi = new NewsApiBuilder()
+				.setApiKey(APIKEY)
+				.setQ("")
+				.setEndPoint(Endpoint.TOP_HEADLINES)
+				.setLanguage(Language.de)
+				.setSourceCountry(Country.at)
+				.setSourceCategory(Category.entertainment)
+				.createNewsApi();
+		ctrl.process(newsApi);
 	}
 
 	public void getDataFromCtrl2(){
+		System.out.println("Sports");
+		NewsApi newsApi = new NewsApiBuilder()
+				.setApiKey(APIKEY)
+				.setQ("")
+				.setEndPoint(Endpoint.TOP_HEADLINES)
+				.setLanguage(Language.en)
+				.setSourceCountry(Country.us)
+				.setSourceCategory(Category.sports)
+				.createNewsApi();
+		ctrl.process(newsApi);
 	}
 
 	public void getDataFromCtrl3(){
-
+		System.out.println("Health");
+		NewsApi newsApi = new NewsApiBuilder()
+				.setApiKey(APIKEY)
+				.setQ("")
+				.setEndPoint(Endpoint.TOP_HEADLINES)
+				.setLanguage(Language.en)
+				.setSourceCountry(null)
+				.setSourceCategory(Category.health)
+				.createNewsApi();
+		ctrl.process(newsApi);
 	}
 	
 	public void getDataForCustomInput() {
@@ -31,11 +63,11 @@ public class UserInterface
 
 
 	public void start() {
-		Menu<Runnable> menu = new Menu<>("User Interfacx");
+		Menu<Runnable> menu = new Menu<>("User Interface");
 		menu.setTitel("Wählen Sie aus:");
-		menu.insert("a", "Choice ABC", this::getDataFromCtrl1);
-		menu.insert("b", "Choice DEF", this::getDataFromCtrl2);
-		menu.insert("c", "Choice 3", this::getDataFromCtrl3);
+		menu.insert("a", "Austria", this::getDataFromCtrl1);
+		menu.insert("b", "Sports", this::getDataFromCtrl2);
+		menu.insert("c", "Health", this::getDataFromCtrl3);
 		menu.insert("d", "Choice User Imput:",this::getDataForCustomInput);
 		menu.insert("q", "Quit", null);
 		Runnable choice;
