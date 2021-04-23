@@ -36,7 +36,7 @@ public class Controller {
 		String result = frequencyMap.entrySet().stream().max(Map.Entry.comparingByValue()).get().getValue().toString();
 		String provider = frequencyMap.entrySet().stream().max(Map.Entry.comparingByValue()).get().getKey().toString();
 
-		return "Der " + provider + " hat am meisten " + result;
+		return "Die meisten Artikel, Anzahl " + result + " hat " + provider;
 	}
 
 	public String getAuthor(List<Article> authorList) {
@@ -64,7 +64,7 @@ public class Controller {
 			int size = getSizeReports(articles);
 			System.out.println("Amount of articles in this category: " + size);
 			System.out.println(getProvider(articles));
-			System.out.println(getAuthor(articles));
+			System.out.println("Author: " + getAuthor(articles));
 			getTitlesSort(articles).forEach(article -> System.out.println(article.getTitle()));
 			}
 		catch (NewsException e){

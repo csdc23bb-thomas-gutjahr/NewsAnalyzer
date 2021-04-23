@@ -4,6 +4,7 @@ package newsanalyzer.ui;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Scanner;
 
 import newsanalyzer.ctrl.Controller;
 import newsapi.NewsApi;
@@ -58,7 +59,15 @@ public class UserInterface
 	}
 	
 	public void getDataForCustomInput() {
-		
+		System.out.println("Geben Sie ein Keyword ein");
+		Scanner in = new Scanner(System.in);
+		String word = in.nextLine();
+		NewsApi newsApi = new NewsApiBuilder()
+				.setApiKey(APIKEY)
+				.setQ(word)
+				.setEndPoint(Endpoint.TOP_HEADLINES)
+				.createNewsApi();
+		ctrl.process(newsApi);
 	}
 
 
