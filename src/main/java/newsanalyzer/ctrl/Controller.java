@@ -25,6 +25,8 @@ public class Controller {
 	private Language language;
 	private Category category;
 
+	public static List urlList;
+
 	private int getSizeReports(List<Article> articles) {
 		return articles.size();
 	}
@@ -54,6 +56,10 @@ public class Controller {
 		 return result;
 	}
 
+	public List<String> getUrl(List<Article> urlList){
+		return urlList.stream().map(article -> article.getUrl()).collect(Collectors.toList());
+	}
+
 
 	public void process(NewsApi newsApi) {
 		System.out.println("Start process");
@@ -66,6 +72,8 @@ public class Controller {
 			System.out.println(getProvider(articles));
 			System.out.println("Author: " + getAuthor(articles));
 			getTitlesSort(articles).forEach(article -> System.out.println(article.getTitle()));
+			System.out.println("Get URL List: " + getUrl(articles));
+			urlList = getUrl(articles);
 			}
 		catch (NewsException e){
 			System.out.println(e.getMessage());

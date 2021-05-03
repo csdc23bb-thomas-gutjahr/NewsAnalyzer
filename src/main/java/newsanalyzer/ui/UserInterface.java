@@ -12,12 +12,16 @@ import newsapi.NewsApiBuilder;
 import newsapi.enums.Category;
 import newsapi.enums.Country;
 import newsapi.enums.*;
+import newsdownload.ParallelDownloader;
+import newsdownload.SequentialDownloader;
 
 public class UserInterface 
 {
 
 	private static final String APIKEY = "236435ac0c264761a6e8a49696eced1a";
 	private Controller ctrl = new Controller();
+	private SequentialDownloader sequentDown = new SequentialDownloader();
+	private ParallelDownloader parallelDown = new ParallelDownloader();
 
 	public void getDataFromCtrl1(){
 		System.out.println("Austria");
@@ -70,6 +74,18 @@ public class UserInterface
 		ctrl.process(newsApi);
 	}
 
+	public void getDataDownloadLastSearch1() {
+		System.out.println("Download Last Search");
+		sequentDown.process(ctrl.urlList);
+
+	}
+
+	public void getDataDownloadLastSearch2() {
+		System.out.println("Download Last Search");
+		parallelDown.process(ctrl.urlList);
+
+	}
+
 
 	public void start() {
 		Menu<Runnable> menu = new Menu<>("User Interface");
@@ -78,6 +94,8 @@ public class UserInterface
 		menu.insert("b", "Sports", this::getDataFromCtrl2);
 		menu.insert("c", "Health", this::getDataFromCtrl3);
 		menu.insert("d", "Choice User Imput:",this::getDataForCustomInput);
+		menu.insert("e", "Download last search (Serial):",this::getDataDownloadLastSearch1);
+		menu.insert("f", "Download last search (Parallel):",this::getDataDownloadLastSearch2);
 		menu.insert("q", "Quit", null);
 		Runnable choice;
 		while ((choice = menu.exec()) != null) {
